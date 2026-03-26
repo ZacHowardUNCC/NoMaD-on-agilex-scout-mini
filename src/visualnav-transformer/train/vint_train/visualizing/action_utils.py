@@ -4,9 +4,9 @@ import matplotlib.pyplot as plt
 import cv2
 from typing import Optional, List
 import wandb
-import yaml
 import torch
 import torch.nn as nn
+from vint_train.data import load_data_config
 from vint_train.visualizing.visualize_utils import (
     to_numpy,
     numpy_to_img,
@@ -19,9 +19,7 @@ from vint_train.visualizing.visualize_utils import (
     MAGENTA,
 )
 
-# load data_config.yaml
-with open(os.path.join(os.path.dirname(__file__), "../data/data_config.yaml"), "r") as f:
-    data_config = yaml.safe_load(f)
+data_config = load_data_config()
 
 
 def visualize_traj_pred(

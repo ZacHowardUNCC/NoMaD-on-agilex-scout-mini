@@ -39,11 +39,21 @@ def clip_angle(theta) -> float:
 	if -np.pi < theta < np.pi:
 		return theta
 	return theta - 2 * np.pi
+
+
+def normalize_waypoint(data) -> np.ndarray:
+	"""Convert waypoint payloads to a flat 2D or 4D NumPy vector."""
+	waypoint_array = np.asarray(data, dtype=np.float32).reshape(-1)
+	if waypoint_array.size not in (2, 4):
+		raise ValueError(
+			f"waypoint must be a 2D or 4D vector, got shape {waypoint_array.shape} from {data!r}"
+		)
+	return waypoint_array
       
 
 def pd_controller(waypoint: np.ndarray) -> Tuple[float]:
 	"""PD controller for the robot"""
-	assert len(waypoint) == 2 or len(waypoint) == 4, "waypoint must be a 2D or 4D vector"
+	waypoint = normalize_waypoint(waypoint)
 	if len(waypoint) == 2:
 		dx, dy = waypoint
 	else:
@@ -67,7 +77,10 @@ def callback_drive(waypoint_msg: Float32MultiArray):
 	"""Callback function for the waypoint subscriber"""
 	global vel_msg
 	print("seting waypoint")
-	waypoint.set(waypoint_msg.data)
+	try:
+		waypoint.set(normalize_waypoint(waypoint_msg.data))
+	except ValueError as exc:
+		print(f"Received invalid waypoint message on {WAYPOINT_TOPIC}: {exc}")
 	
 	
 def callback_reached_goal(reached_goal_msg: Bool):

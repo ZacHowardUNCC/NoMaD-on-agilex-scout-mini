@@ -11,6 +11,7 @@ import torch
 from torch.utils.data import Dataset
 import torchvision.transforms.functional as TF
 
+from vint_train.data import load_data_config
 from vint_train.data.data_utils import (
     img_path_to_data,
     calculate_sin_cos,
@@ -101,11 +102,7 @@ class ViNT_Dataset(Dataset):
         self.obs_type = obs_type
         self.goal_type = goal_type
 
-        # load data/data_config.yaml
-        with open(
-            os.path.join(os.path.dirname(__file__), "data_config.yaml"), "r"
-        ) as f:
-            all_data_config = yaml.safe_load(f)
+        all_data_config = load_data_config()
         assert (
             self.dataset_name in all_data_config
         ), f"Dataset {self.dataset_name} not found in data_config.yaml"

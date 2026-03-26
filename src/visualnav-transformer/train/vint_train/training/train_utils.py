@@ -1,12 +1,12 @@
 import wandb
 import os
 import numpy as np
-import yaml
 from typing import List, Optional, Dict
 from prettytable import PrettyTable
 import tqdm
 import itertools
 
+from vint_train.data import load_data_config
 from vint_train.visualizing.action_utils import visualize_traj_pred, plot_trajs_and_points
 from vint_train.visualizing.distance_utils import visualize_dist_pred
 from vint_train.visualizing.visualize_utils import to_numpy, from_numpy
@@ -24,9 +24,7 @@ from torchvision import transforms
 import torchvision.transforms.functional as TF
 import matplotlib.pyplot as plt
 
-# LOAD DATA CONFIG
-with open(os.path.join(os.path.dirname(__file__), "../data/data_config.yaml"), "r") as f:
-    data_config = yaml.safe_load(f)
+data_config = load_data_config()
 # POPULATE ACTION STATS
 ACTION_STATS = {}
 for key in data_config['action_stats']:
@@ -1173,5 +1171,4 @@ def visualize_diffusion_action_distribution(
         plt.close(fig)
     if len(wandb_list) > 0 and use_wandb:
         wandb.log({f"{eval_type}_action_samples": wandb_list}, commit=False)
-
 
