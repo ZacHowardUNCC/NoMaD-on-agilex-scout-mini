@@ -132,6 +132,7 @@ class NavigationNode(Node):
                 self.sampled_actions_pub.publish(sampled_actions_msg)
                 naction = naction[0] 
                 chosen_waypoint = naction[args.waypoint]
+                print(chosen_waypoint) #DEBUG
             else:
                 start = max(closest_node - args.radius, 0)
                 end = min(closest_node + args.radius + 1, goal_node)
@@ -162,6 +163,7 @@ class NavigationNode(Node):
                     chosen_waypoint = waypoints[min(
                         min_dist_idx + 1, len(waypoints) - 1)][args.waypoint]
                     closest_node = min(start + min_dist_idx + 1, goal_node)
+                print(chosen_waypoint) #DEBUG
         # RECOVERY MODE
         if model_params["normalize"]:
             chosen_waypoint[:2] *= (MAX_V / RATE)  

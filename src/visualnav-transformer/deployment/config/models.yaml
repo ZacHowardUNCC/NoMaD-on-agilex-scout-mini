@@ -12,7 +12,7 @@ gnm:
 
 nomad: 
   config_path: "../../train/config/nomad.yaml"
-  ckpt_path: "../model_weights/nomad.pth"
+  ckpt_path: "../../train/logs/scout_nomad/finetune_nomad/latest.pth"
 
 
 # add your own model configs here after saving the *.pth file to ../model_weight

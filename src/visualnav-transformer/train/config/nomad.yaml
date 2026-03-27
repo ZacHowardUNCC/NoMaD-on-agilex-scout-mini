@@ -1,5 +1,7 @@
-project_name: nomad
-run_name: nomad
+load_run: scout_nomad/finetune_nomad
+
+project_name: scout_nomad
+run_name: finetune_nomad
 
 # training setup
 use_wandb: True # set to false if you don't want to log to wandb
